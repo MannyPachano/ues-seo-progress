@@ -17,7 +17,7 @@
     font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:860px;margin:0 auto;padding:28px 20px 72px}
+  .wrap{max-width:900px;margin:0 auto;padding:28px 20px 72px}
   header{border-bottom:3px solid var(--green);padding-bottom:18px;margin-bottom:26px}
   h1{font-size:27px;line-height:1.25;margin:0 0 6px;letter-spacing:-.2px}
   .sub{color:var(--soft);font-size:15px;margin:0}
@@ -36,17 +36,18 @@
     text-transform:uppercase;letter-spacing:.6px;color:var(--soft);border-bottom:1px solid var(--line)}
   td{padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
   tr:last-child td{border-bottom:none}
-  td.when{white-space:nowrap;color:var(--soft);font-size:14px;width:118px}
-  td.what{font-weight:600}
+  td.prob{font-weight:600;width:34%}
+  td.when{white-space:nowrap;color:var(--soft);font-size:14px;width:96px}
   .tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.4px;
     padding:2px 8px;border-radius:11px;white-space:nowrap;margin-right:6px}
   .prog{background:var(--amberbg);color:var(--amber)}
   footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
     color:var(--soft);font-size:14px}
-  @media(max-width:620px){
+  @media(max-width:640px){
     .wrap{padding:20px 14px 56px}
     h1{font-size:23px}
     table,th,td{font-size:14px}
+    td.prob{width:auto}
     td.when{width:auto;white-space:normal}
     th:nth-child(3),td:nth-child(3){display:none}
   }
@@ -63,104 +64,105 @@
 </header>
 
 <div class="note">
-  <p><b>What this page is.</b> It lists every change made to the website, in order, with what each one means for the business. It is written for people who do not work with websites.</p>
+  <p><b>What this page is.</b> Each row below is a problem we found and what we did about it. It is written for people who do not work with websites.</p>
   <p>Traffic and ranking figures are not on this page. Those are covered in the monthly reports.</p>
 </div>
 
-<h2><span class="n">1</span>What we found when we started</h2>
-<p>These are the issues found during the first review. Most are normal for a site that ran for years without a technical check. None were caused by recent activity.</p>
+<h2><span class="n">1</span>Problems solved</h2>
+<p>Most of these are normal for a site that ran for years without a technical check. None were caused by recent activity. Where a change was made to the live site, it was tested before and after.</p>
 
 <table>
-  <tr><th>What we found</th><th>Why it matters</th></tr>
-  <tr><td class="what">The site answered to four different web addresses</td><td>Search engines had to guess which one was the real site. That splits the site's credit instead of pooling it.</td></tr>
-  <tr><td class="what">A full second copy of the site was public</td><td>Google was reading a duplicate at a different address. Time Google spends on a copy is time it does not spend on the real pages.</td></tr>
-  <tr><td class="what">The site's automatic task scheduler had stopped</td><td>Backups, updates and other scheduled jobs were stuck and not running.</td></tr>
-  <tr><td class="what">Visitors' browsers were told to remember nothing</td><td>Every repeat visitor downloaded the whole site again. That makes the site slower than it should be.</td></tr>
-  <tr><td class="what">The Locations page links to none of the state pages</td><td>The state pages are hard for visitors and for Google to find. They earn traffic despite this.</td></tr>
-  <tr><td class="what">Some pages have near duplicate copies</td><td>Two similar pages compete with each other instead of one strong page ranking well.</td></tr>
-  <tr><td class="what">Main page headings are set at the wrong level</td><td>Google reads headings to understand what a page is about. Right now most pages do not clearly say it.</td></tr>
-  <tr><td class="what">Empty list pages are being shown to Google</td><td>Author and category pages with nothing useful on them are taking up Google's attention.</td></tr>
-  <tr><td class="what">The software the site runs on is out of date</td><td>It no longer receives security fixes. This is the site's most serious open item.</td></tr>
-  <tr><td class="what">The site's design theme is from 2020</td><td>The theme has to be updated before the software above can be updated safely.</td></tr>
-  <tr><td class="what">Arizona and New Jersey listings show the Georgia phone number</td><td>Local customers see an out of state number. It also weakens those listings in local search.</td></tr>
-  <tr><td class="what">The Old Bridge, New Jersey listing is suspended</td><td>That location does not appear on Google Maps at all right now.</td></tr>
-  <tr><td class="what">The footer still read 2017 to 2022</td><td>Small, but it makes the site look unattended to anyone who notices.</td></tr>
-</table>
-
-<h2><span class="n">2</span>Work completed</h2>
-<p>Every item below is finished and checked. Where a change was made to the live site, it was tested before and after.</p>
-
-<table>
-  <tr><th>Date</th><th>What we did</th><th>What it means for you</th></tr>
+  <tr><th>The problem</th><th>What we did about it</th><th>When</th></tr>
 
   <tr>
+    <td class="prob">No agreed list of regions to prioritize</td>
+    <td>Agreed the focus areas with Juan. The Washington DC to Newark corridor at county level, and Phoenix within 70 miles. Every task since points at these two.</td>
     <td class="when">Late July</td>
-    <td class="what">Agreed the focus areas with Juan</td>
-    <td>Two target regions confirmed. The Washington DC to Newark corridor at county level, and Phoenix within 70 miles. All work points at these.</td>
   </tr>
   <tr>
+    <td class="prob">No record of the state of the 29 Google Business listings</td>
+    <td>Reviewed every one. 27 are live and verified. Two are waiting on video verification.</td>
     <td class="when">Late July</td>
-    <td class="what">Reviewed all 29 Google Business listings</td>
-    <td>27 are live and verified. Two are waiting on video verification. We now know the exact state of every listing.</td>
   </tr>
   <tr>
+    <td class="prob">No starting measurement for the local map rankings</td>
+    <td>Measured Arizona and New Jersey with a ranking grid. Casa Grande ranks 3rd of 89 nearby competitors. Old Bridge does not appear at all, because of the suspension. This is the before picture we will measure against.</td>
     <td class="when">Late July</td>
-    <td class="what">Measured local map rankings in Arizona and New Jersey</td>
-    <td>Casa Grande ranks 3rd of 89 nearby competitors. Old Bridge does not appear at all, because of the suspension. This is our before picture.</td>
   </tr>
   <tr>
+    <td class="prob">The starting audit had not been checked against live data</td>
+    <td>Verified every finding directly in Google Search Console and Google Analytics. Nothing on this page is based on assumption.</td>
     <td class="when">August 3</td>
-    <td class="what">Verified every audit finding against live Google data</td>
-    <td>Each item on this page was confirmed directly with Google Search Console and Analytics. Nothing here is based on assumption.</td>
   </tr>
   <tr>
+    <td class="prob">No record of what was installed or set up inside the website</td>
+    <td>Documented every plugin, setting, page and menu. This pass was read only. Nothing was changed.</td>
     <td class="when">August 3</td>
-    <td class="what">Told the website its own correct address</td>
-    <td>The site was working out its address from however each visitor arrived. It now knows one fixed address. This fixed the root cause of the four address problem.</td>
   </tr>
   <tr>
+    <td class="prob">The footer still read 2017 to 2022</td>
+    <td>Updated it to 2026. Small, but an out of date footer makes the whole site look unattended.</td>
     <td class="when">August 3</td>
-    <td class="what">Completed a full review of the site's admin area</td>
-    <td>Every plugin, setting, page and menu is now documented. No changes were made during this review. It was read only.</td>
   </tr>
   <tr>
-    <td class="when">August 3</td>
-    <td class="what">Updated the footer copyright year</td>
-    <td>The footer read 2017 to 2022. It now reads 2026.</td>
+    <td class="prob">The site answered to four different web addresses, so search engines had to guess which was the real one</td>
+    <td>Fixed in two steps. First the site was told its own fixed address, which was the underlying cause. Then all four addresses were pointed to that one address, in a single hop. The site's credit now pools instead of splitting.</td>
+    <td class="when">August 3 and 4</td>
   </tr>
   <tr>
+    <td class="prob">A full second copy of the site was public at a different address</td>
+    <td>Closed it. That address now sends visitors and Google to the real site. Time Google spent reading a duplicate goes back to the pages that matter.</td>
     <td class="when">August 4</td>
-    <td class="what">Reduced the four web addresses to one</td>
-    <td>All versions of the address now send visitors and Google straight to the same place, in one step. Cleaner for search engines and slightly faster for visitors.</td>
   </tr>
   <tr>
+    <td class="prob">The site's automatic task scheduler had stopped, so backups and updates were stuck</td>
+    <td>Restarted it. Scheduled jobs now run every five minutes.</td>
     <td class="when">August 4</td>
-    <td class="what">Closed the public duplicate copy of the site</td>
-    <td>The second copy now redirects to the real site. Google can stop reading it and spend that time on the pages that matter.</td>
   </tr>
   <tr>
+    <td class="prob">Visitors' browsers were told to remember nothing, so every repeat visit downloaded the whole site again</td>
+    <td>Turned on browser memory for images and design files. Pages load faster from the second visit onward.</td>
     <td class="when">August 4</td>
-    <td class="what">Restarted the site's automatic task scheduler</td>
-    <td>Scheduled jobs run again, every five minutes. Backups and scheduled work are no longer stuck.</td>
-  </tr>
-  <tr>
-    <td class="when">August 4</td>
-    <td class="what">Turned on browser memory for images and design files</td>
-    <td>Repeat visitors no longer download the whole site again. Pages load faster on the second visit onward.</td>
   </tr>
 </table>
 
-<h2><span class="n">3</span>What is happening next</h2>
+<h2><span class="n">2</span>Problems still open</h2>
 
 <table>
-  <tr><th>Next</th><th>What it means for you</th></tr>
-  <tr><td class="what"><span class="tag prog">NEXT UP</span>Back up the site, then update all plugins</td><td>One controlled session. Take a full backup first, update in small batches, check the site after each one.</td></tr>
-  <tr><td class="what"><span class="tag prog">NEXT UP</span>Link the Locations page to every state page</td><td>Makes the state pages easy to find for visitors and for Google. This is the largest quick win available.</td></tr>
-  <tr><td class="what"><span class="tag prog">NEXT UP</span>Stop showing Google the empty list pages</td><td>Two settings changes. Focuses Google's attention on real pages.</td></tr>
-  <tr><td class="what"><span class="tag prog">NEXT UP</span>Fix page headings across the site</td><td>Each page will clearly state what it is about, in the way search engines read.</td></tr>
-  <tr><td class="what"><span class="tag prog">NEXT UP</span>Tidy the duplicate pages</td><td>One strong page per topic instead of two competing ones. Old addresses will still work.</td></tr>
-  <tr><td class="what"><span class="tag prog">WAITING</span>Update the site software</td><td>The design theme has to be updated first, and that needs the theme's purchase license.</td></tr>
-  <tr><td class="what"><span class="tag prog">WAITING</span>Reinstate the Old Bridge listing</td><td>Waiting on proof of location documents, and on a local New Jersey phone number for the listing.</td></tr>
+  <tr><th>The problem</th><th>What happens next</th></tr>
+
+  <tr>
+    <td class="prob">The Locations page links to none of the state pages</td>
+    <td><span class="tag prog">NEXT UP</span>Add a link to every state page. Those pages earn traffic despite being hard to find, so this is the largest quick win available.</td>
+  </tr>
+  <tr>
+    <td class="prob">Sixteen plugins are out of date</td>
+    <td><span class="tag prog">NEXT UP</span>Back up the site first, then update in small batches and check the site after each one.</td>
+  </tr>
+  <tr>
+    <td class="prob">Empty list pages are being shown to Google</td>
+    <td><span class="tag prog">NEXT UP</span>Two settings changes. Focuses Google's attention on real pages instead.</td>
+  </tr>
+  <tr>
+    <td class="prob">Main page headings are set at the wrong level</td>
+    <td><span class="tag prog">NEXT UP</span>Fix them so each page clearly states what it is about, in the way search engines read.</td>
+  </tr>
+  <tr>
+    <td class="prob">Some pages have near duplicate copies</td>
+    <td><span class="tag prog">NEXT UP</span>Tidy them into one strong page per topic. Old addresses will still work.</td>
+  </tr>
+  <tr>
+    <td class="prob">The software the site runs on is out of date and no longer gets security fixes</td>
+    <td><span class="tag prog">WAITING</span>The design theme is from 2020 and has to be updated first. That needs the theme's purchase license. This is the site's most serious open item.</td>
+  </tr>
+  <tr>
+    <td class="prob">Arizona and New Jersey listings show the Georgia phone number</td>
+    <td><span class="tag prog">WAITING</span>Replace both with local numbers. This should happen before the New Jersey appeal below.</td>
+  </tr>
+  <tr>
+    <td class="prob">The Old Bridge, New Jersey listing is suspended, so it does not appear on Google Maps</td>
+    <td><span class="tag prog">WAITING</span>Waiting on proof of location documents, and on the local phone number above.</td>
+  </tr>
 </table>
 
 <footer>
