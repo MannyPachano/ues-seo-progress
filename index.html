@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>UES Website Work Log</title>
+<style>
+  :root{
+    --ink:#1c2321; --soft:#5b6763; --line:#dfe4e1; --bg:#f7f9f8;
+    --green:#2c6e49; --greenbg:#eaf4ee; --amber:#8a6d1f; --amberbg:#fdf6e3;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:28px 20px 72px}
+  header{border-bottom:3px solid var(--green);padding-bottom:18px;margin-bottom:26px}
+  h1{font-size:27px;line-height:1.25;margin:0 0 6px;letter-spacing:-.2px}
+  .sub{color:var(--soft);font-size:15px;margin:0}
+  .stamp{display:inline-block;margin-top:12px;font-size:13px;color:var(--soft);
+    background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px 12px}
+  h2{font-size:19px;margin:38px 0 10px;padding-top:8px;letter-spacing:-.1px}
+  h2 .n{display:inline-block;width:25px;height:25px;line-height:25px;text-align:center;
+    background:var(--green);color:#fff;border-radius:50%;font-size:13px;margin-right:9px;vertical-align:2px}
+  p{margin:0 0 13px}
+  .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);
+    border-radius:5px;padding:15px 17px;margin:0 0 8px}
+  .note p:last-child{margin-bottom:0}
+  table{width:100%;border-collapse:collapse;background:var(--card);
+    border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:10px 0 6px;font-size:15px}
+  th{background:#f0f3f1;text-align:left;padding:10px 13px;font-size:12.5px;
+    text-transform:uppercase;letter-spacing:.6px;color:var(--soft);border-bottom:1px solid var(--line)}
+  td{padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.when{white-space:nowrap;color:var(--soft);font-size:14px;width:118px}
+  td.what{font-weight:600}
+  .tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.4px;
+    padding:2px 8px;border-radius:11px;white-space:nowrap;margin-right:6px}
+  .prog{background:var(--amberbg);color:var(--amber)}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
+    color:var(--soft);font-size:14px}
+  @media(max-width:620px){
+    .wrap{padding:20px 14px 56px}
+    h1{font-size:23px}
+    table,th,td{font-size:14px}
+    td.when{width:auto;white-space:normal}
+    th:nth-child(3),td:nth-child(3){display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>UES Website Work Log</h1>
+  <p class="sub">A plain-language record of the work done on universalenvironmentalservices.com.</p>
+  <p class="sub">Prepared by Manny Pachano for Juan Fritschy and Lisa Sandefur.</p>
+  <span class="stamp">Last updated: August 4, 2026</span>
+</header>
+
+<div class="note">
+  <p><b>What this page is.</b> It lists every change made to the website, in order, with what each one means for the business. It is written for people who do not work with websites.</p>
+  <p>Traffic and ranking figures are not on this page. Those are covered in the monthly reports.</p>
+</div>
+
+<h2><span class="n">1</span>What we found when we started</h2>
+<p>These are the issues found during the first review. Most are normal for a site that ran for years without a technical check. None were caused by recent activity.</p>
+
+<table>
+  <tr><th>What we found</th><th>Why it matters</th></tr>
+  <tr><td class="what">The site answered to four different web addresses</td><td>Search engines had to guess which one was the real site. That splits the site's credit instead of pooling it.</td></tr>
+  <tr><td class="what">A full second copy of the site was public</td><td>Google was reading a duplicate at a different address. Time Google spends on a copy is time it does not spend on the real pages.</td></tr>
+  <tr><td class="what">The site's automatic task scheduler had stopped</td><td>Backups, updates and other scheduled jobs were stuck and not running.</td></tr>
+  <tr><td class="what">Visitors' browsers were told to remember nothing</td><td>Every repeat visitor downloaded the whole site again. That makes the site slower than it should be.</td></tr>
+  <tr><td class="what">The Locations page links to none of the state pages</td><td>The state pages are hard for visitors and for Google to find. They earn traffic despite this.</td></tr>
+  <tr><td class="what">Some pages have near duplicate copies</td><td>Two similar pages compete with each other instead of one strong page ranking well.</td></tr>
+  <tr><td class="what">Main page headings are set at the wrong level</td><td>Google reads headings to understand what a page is about. Right now most pages do not clearly say it.</td></tr>
+  <tr><td class="what">Empty list pages are being shown to Google</td><td>Author and category pages with nothing useful on them are taking up Google's attention.</td></tr>
+  <tr><td class="what">The software the site runs on is out of date</td><td>It no longer receives security fixes. This is the site's most serious open item.</td></tr>
+  <tr><td class="what">The site's design theme is from 2020</td><td>The theme has to be updated before the software above can be updated safely.</td></tr>
+  <tr><td class="what">Arizona and New Jersey listings show the Georgia phone number</td><td>Local customers see an out of state number. It also weakens those listings in local search.</td></tr>
+  <tr><td class="what">The Old Bridge, New Jersey listing is suspended</td><td>That location does not appear on Google Maps at all right now.</td></tr>
+  <tr><td class="what">The footer still read 2017 to 2022</td><td>Small, but it makes the site look unattended to anyone who notices.</td></tr>
+</table>
+
+<h2><span class="n">2</span>Work completed</h2>
+<p>Every item below is finished and checked. Where a change was made to the live site, it was tested before and after.</p>
+
+<table>
+  <tr><th>Date</th><th>What we did</th><th>What it means for you</th></tr>
+
+  <tr>
+    <td class="when">Late July</td>
+    <td class="what">Agreed the focus areas with Juan</td>
+    <td>Two target regions confirmed. The Washington DC to Newark corridor at county level, and Phoenix within 70 miles. All work points at these.</td>
+  </tr>
+  <tr>
+    <td class="when">Late July</td>
+    <td class="what">Reviewed all 29 Google Business listings</td>
+    <td>27 are live and verified. Two are waiting on video verification. We now know the exact state of every listing.</td>
+  </tr>
+  <tr>
+    <td class="when">Late July</td>
+    <td class="what">Measured local map rankings in Arizona and New Jersey</td>
+    <td>Casa Grande ranks 3rd of 89 nearby competitors. Old Bridge does not appear at all, because of the suspension. This is our before picture.</td>
+  </tr>
+  <tr>
+    <td class="when">August 3</td>
+    <td class="what">Verified every audit finding against live Google data</td>
+    <td>Each item on this page was confirmed directly with Google Search Console and Analytics. Nothing here is based on assumption.</td>
+  </tr>
+  <tr>
+    <td class="when">August 3</td>
+    <td class="what">Told the website its own correct address</td>
+    <td>The site was working out its address from however each visitor arrived. It now knows one fixed address. This fixed the root cause of the four address problem.</td>
+  </tr>
+  <tr>
+    <td class="when">August 3</td>
+    <td class="what">Completed a full review of the site's admin area</td>
+    <td>Every plugin, setting, page and menu is now documented. No changes were made during this review. It was read only.</td>
+  </tr>
+  <tr>
+    <td class="when">August 3</td>
+    <td class="what">Updated the footer copyright year</td>
+    <td>The footer read 2017 to 2022. It now reads 2026.</td>
+  </tr>
+  <tr>
+    <td class="when">August 4</td>
+    <td class="what">Reduced the four web addresses to one</td>
+    <td>All versions of the address now send visitors and Google straight to the same place, in one step. Cleaner for search engines and slightly faster for visitors.</td>
+  </tr>
+  <tr>
+    <td class="when">August 4</td>
+    <td class="what">Closed the public duplicate copy of the site</td>
+    <td>The second copy now redirects to the real site. Google can stop reading it and spend that time on the pages that matter.</td>
+  </tr>
+  <tr>
+    <td class="when">August 4</td>
+    <td class="what">Restarted the site's automatic task scheduler</td>
+    <td>Scheduled jobs run again, every five minutes. Backups and scheduled work are no longer stuck.</td>
+  </tr>
+  <tr>
+    <td class="when">August 4</td>
+    <td class="what">Turned on browser memory for images and design files</td>
+    <td>Repeat visitors no longer download the whole site again. Pages load faster on the second visit onward.</td>
+  </tr>
+</table>
+
+<h2><span class="n">3</span>What is happening next</h2>
+
+<table>
+  <tr><th>Next</th><th>What it means for you</th></tr>
+  <tr><td class="what"><span class="tag prog">NEXT UP</span>Back up the site, then update all plugins</td><td>One controlled session. Take a full backup first, update in small batches, check the site after each one.</td></tr>
+  <tr><td class="what"><span class="tag prog">NEXT UP</span>Link the Locations page to every state page</td><td>Makes the state pages easy to find for visitors and for Google. This is the largest quick win available.</td></tr>
+  <tr><td class="what"><span class="tag prog">NEXT UP</span>Stop showing Google the empty list pages</td><td>Two settings changes. Focuses Google's attention on real pages.</td></tr>
+  <tr><td class="what"><span class="tag prog">NEXT UP</span>Fix page headings across the site</td><td>Each page will clearly state what it is about, in the way search engines read.</td></tr>
+  <tr><td class="what"><span class="tag prog">NEXT UP</span>Tidy the duplicate pages</td><td>One strong page per topic instead of two competing ones. Old addresses will still work.</td></tr>
+  <tr><td class="what"><span class="tag prog">WAITING</span>Update the site software</td><td>The design theme has to be updated first, and that needs the theme's purchase license.</td></tr>
+  <tr><td class="what"><span class="tag prog">WAITING</span>Reinstate the Old Bridge listing</td><td>Waiting on proof of location documents, and on a local New Jersey phone number for the listing.</td></tr>
+</table>
+
+<footer>
+  Prepared by Manny Pachano. manny@pachano.com, 678 793 2445.<br>
+  Last updated August 4, 2026.
+</footer>
+
+</div>
+</body>
+</html>
