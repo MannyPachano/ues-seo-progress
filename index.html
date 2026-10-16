@@ -1,454 +1,824 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-
 <head>
-
 <meta charset="utf-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <meta name="robots" content="noindex, nofollow">
-
 <title>UES Website Work Log</title>
-
 <style>
+:root{
+  color-scheme:light;
+  --ink:#17201d; --soft:#56635e; --faint:#7d8985; --line:#e0e6e3; --bg:#f4f6f5; --card:#fff;
+  --green:#2c6e49; --green-d:#1d4d33; --greenbg:#e7f3eb;
+  --blue:#2d5f8f; --bluebg:#e7f0f9;
+  --amber:#8a6d1f; --amberbg:#fcf3d9; --amberline:#ecd9a2;
+  --gray:#5f6b75; --graybg:#eceff2;
+  --r:12px; --shadow:0 1px 2px rgba(16,24,20,.05),0 2px 8px rgba(16,24,20,.04);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:var(--ink);padding:8px 12px;border-radius:8px;z-index:50}
+.skip:focus{left:12px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #6aa784;outline-offset:2px}
 
-  :root{
-    --ink:#1c2321; --soft:#5b6763; --line:#dfe4e1; --bg:#f7f9f8;
-    --green:#2c6e49; --greenbg:#eaf4ee; --amber:#8a6d1f; --amberbg:#fdf6e3;
-    --card:#ffffff;
-  }
+/* header */
+.hero{background:linear-gradient(135deg,#1d4d33 0%,#2c6e49 70%,#3b7f57 100%);color:#fff;padding:40px 0 34px}
+.eyebrow{margin:0 0 6px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.8;font-weight:600}
+.hero h1{margin:0 0 6px;font-size:34px;line-height:1.15;letter-spacing:-.4px}
+.hero .sub{margin:0 0 14px;font-size:16.5px;opacity:.92}
+.hero .meta{margin:0;font-size:14px;opacity:.9}
+.hero .sep{margin:0 6px;opacity:.6}
+.hero .stamp{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:2px 11px;font-weight:600;white-space:nowrap}
 
-  *{box-sizing:border-box}
+main.wrap{padding-top:24px;padding-bottom:64px}
+.intro{margin:0 0 20px;max-width:760px}
+.intro p{margin:0;color:var(--soft);font-size:15.5px}
+.intro b{color:var(--ink)}
 
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 18px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px 13px;box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+.tile:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(16,24,20,.08)}
+.tile .num{font-size:30px;font-weight:750;line-height:1.1;color:var(--c);font-variant-numeric:tabular-nums}
+.tile .tl{font-size:13.5px;color:var(--soft);font-weight:600}
+.tile[aria-pressed="true"]{background:var(--cb);box-shadow:inset 0 0 0 2px var(--c)}
+.tile.done,.chip .dot.done,.pill.done,.mbar i.done,.mini.done{--c:var(--green);--cb:var(--greenbg)}
+.tile.prog,.chip .dot.prog,.pill.prog,.mbar i.prog,.mini.prog{--c:var(--blue);--cb:var(--bluebg)}
+.tile.wait,.chip .dot.wait,.pill.wait,.mbar i.wait,.mini.wait{--c:var(--amber);--cb:var(--amberbg)}
+.tile.plan,.chip .dot.plan,.pill.plan,.mbar i.plan,.mini.plan{--c:var(--gray);--cb:var(--graybg)}
 
-  .wrap{max-width:900px;margin:0 auto;padding:28px 20px 72px}
+/* waiting box */
+.waitbox{background:var(--amberbg);border:1px solid var(--amberline);border-radius:var(--r);padding:14px 18px 8px;margin:0 0 22px}
+.waitbox h2{margin:0 0 2px;font-size:17px;color:#6b5414}
+.waitbox>p{margin:0 0 8px;font-size:14px;color:#6b5a2a}
+.waitbox ul{list-style:none;margin:0;padding:0}
+.waitbox li{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:10px 0;border-top:1px solid var(--amberline)}
+.waitbox li b{font-size:15px}
+.waitbox li span{grid-column:1;font-size:14px;color:#5e4f24}
+.waitbox li a{grid-column:2;grid-row:1 / span 2;align-self:center;font-size:13.5px;font-weight:650;color:#6b5414;white-space:nowrap}
 
-  header{border-bottom:3px solid var(--green);padding-bottom:18px;margin-bottom:26px}
+/* toolbar */
+.toolbar{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px 8px;margin:0 0 20px;box-shadow:var(--shadow);z-index:20}
+.trow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{flex:1 1 260px;position:relative;display:block}
+.search svg{position:absolute;left:11px;top:50%;width:17px;height:17px;transform:translateY(-50%);fill:none;stroke:var(--faint);stroke-width:2}
+.search input{width:100%;font:inherit;font-size:15px;padding:9px 12px 9px 35px;border:1px solid var(--line);border-radius:10px;background:#fafbfa;color:var(--ink)}
+.search input:focus{outline:none;border-color:#8fbca2;box-shadow:0 0 0 3px rgba(44,110,73,.15);background:#fff}
+.seg{display:inline-flex;background:#eef2f0;border-radius:10px;padding:3px}
+.seg button{border:0;background:transparent;padding:6px 12px;border-radius:8px;font-size:14px;font-weight:600;color:var(--soft)}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.acts{display:inline-flex;gap:6px}
+.acts button,#clear,#clear2{border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:var(--soft)}
+.acts button:hover,#clear:hover,#clear2:hover{color:var(--ink);border-color:#c9d2ce}
+.frow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px}
+.flab{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:0 4px 0 2px}
+.frow .flab:not(:first-child){margin-left:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 11px;font-size:13.5px;color:var(--soft);white-space:nowrap}
+.chip b{font-weight:700;color:var(--faint);font-size:12px}
+.chip:hover{border-color:#c4cfca;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip[aria-pressed="true"] b{color:#cfd8d4}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:var(--c);display:inline-block}
+.status-line{display:flex;align-items:center;gap:10px;margin-top:9px;font-size:13px;color:var(--faint);min-height:28px}
 
-  h1{font-size:27px;line-height:1.25;margin:0 0 6px;letter-spacing:-.2px}
+/* topic sections */
+.cat{margin:0 0 14px}
+.cathead{margin:0;font-size:inherit}
+.cattog{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:transparent;border:0;padding:10px 4px;border-radius:10px}
+.cattog:hover{background:#ebf0ed}
+.ic{width:34px;height:34px;flex:none;padding:7px;border-radius:10px;background:var(--greenbg);fill:none;stroke:var(--green);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cn{flex:1;min-width:0;display:flex;flex-direction:column}
+.cname{font-size:18.5px;font-weight:720;letter-spacing:-.2px;line-height:1.25}
+.cdesc{font-size:13.5px;color:var(--faint)}
+.cmeta{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none}
+.ccount{font-size:13px;color:var(--soft)}
+.ccount b{font-size:15px;color:var(--ink)}
+.mbar{display:flex;width:110px;height:6px;border-radius:4px;overflow:hidden;background:#e6ebe8;gap:2px}
+.mbar i{display:block;background:var(--c);min-width:6px}
+.chev{flex:none;width:22px;height:22px;position:relative}
+.chev::before{content:"";position:absolute;left:6px;top:4px;width:8px;height:8px;border-right:2px solid var(--faint);border-bottom:2px solid var(--faint);transform:rotate(45deg);transition:transform .15s}
+.cattog[aria-expanded="false"] .chev::before{transform:rotate(-45deg);left:4px;top:6px}
+.catbody{display:flex;flex-direction:column;gap:10px;padding:4px 0 6px}
+.catbody[hidden]{display:none}
 
-  .sub{color:var(--soft);font-size:15px;margin:0}
+/* items */
+.item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.item>summary{list-style:none;display:flex;gap:12px;align-items:flex-start;padding:15px 16px 15px 18px;cursor:pointer;position:relative}
+.item>summary::-webkit-details-marker{display:none}
+.item>summary:hover{background:#fbfcfb}
+.s-done{--c:var(--green);--cb:var(--greenbg)}
+.s-prog{--c:var(--blue);--cb:var(--bluebg)}
+.s-wait{--c:var(--amber);--cb:var(--amberbg)}
+.s-plan{--c:var(--gray);--cb:var(--graybg)}
+.sum{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:13px;color:var(--faint)}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.03em;padding:2px 9px;border-radius:999px;background:var(--cb);color:var(--c);white-space:nowrap}
+.date{font-weight:600;color:var(--soft);font-variant-numeric:tabular-nums}
+.cnt{display:inline-flex;align-items:center;font-weight:700;color:var(--ink);background:#f0f3f1;border:1px solid var(--line);border-radius:7px;padding:0 7px;font-size:12.5px}
+.who{font-weight:700;color:var(--amber)}
+.ttl{font-size:16.5px;font-weight:680;line-height:1.38;letter-spacing:-.1px}
+.out{font-size:15px;color:var(--soft);line-height:1.5}
+.item[open]>summary .chev::before{transform:rotate(225deg);top:8px}
+.item>summary .chev{margin-top:2px}
+.body{padding:0 18px 14px 18px;border-top:1px solid var(--line);background:#fcfdfc}
+.log{list-style:none;margin:0;padding:6px 0 0}
+.log li{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+.log li:last-child{border-bottom:0}
+.log .d{font-weight:650;color:var(--soft);font-variant-numeric:tabular-nums}
+.mini{display:inline-block;margin-left:6px;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--cb);color:var(--c);vertical-align:1px}
+.item.hit{box-shadow:0 0 0 3px rgba(138,109,31,.35)}
+mark{background:#fde68a;color:inherit;border-radius:3px;padding:0 1px}
 
-  .stamp{display:inline-block;margin-top:12px;font-size:13px;color:var(--soft);
-    background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px 12px}
+/* date view */
+.month{margin:0 0 18px}
+.month h2{display:flex;align-items:baseline;gap:10px;margin:6px 4px 10px;font-size:19px;letter-spacing:-.2px}
+.month h2 span{font-size:13px;font-weight:600;color:var(--faint)}
+.month .items{display:flex;flex-direction:column;gap:10px}
+.catlabel{display:inline-block;font-size:12px;font-weight:600;color:var(--green);background:var(--greenbg);border-radius:6px;padding:0 7px}
+#topicview .catlabel{display:none}
 
-  h2{font-size:19px;margin:38px 0 10px;padding-top:8px;letter-spacing:-.1px}
+.empty{text-align:center;padding:40px 20px;background:var(--card);border:1px dashed var(--line);border-radius:var(--r);color:var(--soft)}
+.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);font-size:13.5px}
+[hidden]{display:none !important}
 
-  h2 .n{display:inline-block;width:25px;height:25px;line-height:25px;text-align:center;
-    background:var(--green);color:#fff;border-radius:50%;font-size:13px;margin-right:9px;vertical-align:2px}
+@media (max-width:760px){
+  .wrap{padding:0 16px}
+  .hero{padding:30px 0 26px}
+  .hero h1{font-size:27px}
+  .hero .sub{font-size:15.5px}
+  .hero .sep{display:none}
+  .hero .stamp{display:table;margin-top:8px}
+  .tiles{grid-template-columns:repeat(2,1fr);gap:10px}
+  .tile{padding:12px 14px}
+  .tile .num{font-size:26px}
+  .toolbar{position:static;padding:12px}
+  .trow{gap:8px}
+  .search{flex-basis:100%}
+  .seg{flex:1}
+  .seg button{flex:1}
+  .frow{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px;scrollbar-width:none}
+  .frow::-webkit-scrollbar{display:none}
+  .cdesc{display:none}
+  .mbar{width:72px}
+  .cname{font-size:17px}
+  .item>summary{padding:13px 12px 13px 14px;gap:8px}
+  .ttl{font-size:16px}
+  .out{font-size:14.5px}
+  .body{padding:0 14px 12px 14px}
+  .log li{grid-template-columns:1fr;gap:1px}
+  .waitbox li{grid-template-columns:1fr}
+  .waitbox li a{grid-column:1;grid-row:auto;margin-top:4px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
+@media print{
+  body{background:#fff}
+  .hero{background:#fff;color:var(--ink);padding:0 0 12px;border-bottom:1px solid var(--line)}
+  .toolbar,.skip,.chev,.waitbox a{display:none !important}
+  .tile{box-shadow:none}
+  .item,.intro{box-shadow:none;break-inside:avoid}
+  .catbody[hidden]{display:flex !important}
+}
 
-  p{margin:0 0 13px}
-
-  .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);
-    border-radius:5px;padding:15px 17px;margin:0 0 8px}
-
-  .note p:last-child{margin-bottom:0}
-
-  table{width:100%;border-collapse:collapse;background:var(--card);
-    border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:10px 0 6px;font-size:15px}
-
-  th{background:#f0f3f1;text-align:left;padding:10px 13px;font-size:12.5px;
-    text-transform:uppercase;letter-spacing:.6px;color:var(--soft);border-bottom:1px solid var(--line)}
-
-  td{padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
-
-  tr:last-child td{border-bottom:none}
-
-  td.prob{font-weight:600;width:34%}
-
-  td.when{white-space:nowrap;color:var(--soft);font-size:14px;width:96px}
-
-  .tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.4px;
-    padding:2px 8px;border-radius:11px;white-space:nowrap;margin-right:6px}
-
-  .prog{background:var(--amberbg);color:var(--amber)}
-
-  .wait{
-    background:var(--amberbg);
-    border:1px solid #ead9a8;
-    border-left:5px solid var(--amber);
-    border-radius:8px;
-    padding:8px 18px 16px;
-    margin:22px 0 8px;
-  }
-
-  .wait h2{margin-top:18px;padding-top:0}
-
-  .wait h2 .n{background:var(--amber)}
-
-  .wait table{
-    background:#fffdf6;
-    border-color:#ead9a8;
-  }
-
-  .wait th{
-    background:#f6ebb8;
-    color:#6e5614;
-    border-bottom-color:#ead9a8;
-  }
-
-  .wait td{border-bottom-color:#ead9a8}
-
-  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
-    color:var(--soft);font-size:14px}
-
-  @media(max-width:640px){
-    .wrap{padding:20px 14px 56px}
-    h1{font-size:23px}
-    table,th,td{font-size:14px}
-    td.prob{width:auto}
-    td.when{width:auto;white-space:normal}
-    th:nth-child(3),td:nth-child(3){display:none}
-  }
-
+/* desktop: filters in a sticky side column */
+@media (min-width:1080px){
+  .wrap{max-width:1200px}
+  .layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:26px;align-items:start}
+  .toolbar{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;margin:0;padding:14px}
+  .trow{flex-direction:column;align-items:stretch}
+  .search{flex:none}
+  .seg{display:flex}.seg button{flex:1}
+  .acts{display:flex}.acts button{flex:1}
+  .frow{flex-direction:column;align-items:stretch;gap:5px;margin-top:14px}
+  .frow .flab{margin:4px 0 2px}
+  .frow .flab:not(:first-child){margin-left:0;margin-top:12px}
+  .frow .chip{justify-content:flex-start;border-radius:9px;padding:6px 10px}
+  .frow.cats .chip{justify-content:space-between}
+  .frow .chip b{margin-left:auto}
+  .status-line{flex-wrap:wrap}
+}
+@media (min-width:761px) and (max-width:1079px){
+  .toolbar{position:static}
+}
+.seg button{height:32px;line-height:1;white-space:nowrap}
+.acts button{height:32px;line-height:1;white-space:nowrap}
+@media (min-width:1080px){
+  .frow{flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px}
+  .frow .flab{flex-basis:100%}
+  .frow .chip{padding:5px 10px}
+  .frow.cats .chip{flex-basis:100%}
+}
+.tile .tl::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:7px;vertical-align:1px}
 </style>
-
 </head>
-
 <body>
-
+<a class="skip" href="#list">Skip to the work items</a>
+<header class="hero">
 <div class="wrap">
-
-<header>
-  <h1>UES Website Work Log</h1>
-  <p class="sub">A record of the website, Google and online listing work completed for UES.</p>
-  <p class="sub">Prepared by Manny Pachano for Juan Fritschy and Lisa Sandefur.</p>
-  <span class="stamp">Last updated: September 30, 2026</span>
+<p class="eyebrow">Universal Environmental Services</p>
+<h1>Website Work Log</h1>
+<p class="sub">A record of the website, Google and online listing work completed for UES.</p>
+<p class="meta">Prepared by Manny Pachano for Juan Fritschy and Lisa Sandefur <span class="sep" aria-hidden="true">&middot;</span> <span class="stamp">Last updated October 15, 2026</span></p>
+</div>
 </header>
+<main class="wrap">
+<section class="intro">
+<p><b>How to read this page.</b> Each item starts with a problem I found, then what was done about it. Related changes are grouped into one item with a count. Open an item to see each change and its date. Traffic and ranking numbers are not included here. They are in the monthly reports.</p>
+</section>
 
-<div class="note">
-  <p><b>What this page is.</b> Each row starts with a problem we found, followed by what was done or what happens next.</p>
-  <p>Traffic and ranking numbers are not included here. Those are covered in the monthly reports.</p>
+<section class="tiles" aria-label="Items by status"><button type="button" class="tile done" data-f="status" data-v="done" aria-pressed="false"><span class="num">30</span><span class="tl">Done</span></button><button type="button" class="tile prog" data-f="status" data-v="progress" aria-pressed="false"><span class="num">12</span><span class="tl">In progress</span></button><button type="button" class="tile wait" data-f="status" data-v="waiting" aria-pressed="false"><span class="num">2</span><span class="tl">Waiting on others</span></button><button type="button" class="tile plan" data-f="status" data-v="planned" aria-pressed="false"><span class="num">1</span><span class="tl">Planned</span></button></section>
+
+<section class="waitbox" aria-labelledby="wb-h">
+<h2 id="wb-h">Waiting on others</h2>
+<p>These items cannot move until something arrives from someone else. They are not holding up the other work.</p>
+<ul><li><b>The Boonville, Indiana listing is suspended</b><span>I am waiting for the signed Boonville lease. Once I have it, I file the appeal with the Indiana registration form and the lease.</span><a href="#i15" data-open="i15">See details</a></li><li><b>More listings are accepted and waiting to be published</b><span>These sites said yes. Each one adds UES on its own schedule.</span><a href="#i31" data-open="i31">See details</a></li></ul>
+</section>
+
+<div class="layout">
+<aside class="toolbar" id="toolbar" aria-label="Search and filters">
+<div class="trow">
+<label class="search"><span class="vh">Search the work log</span>
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+<input type="search" id="q" placeholder="Search the log" autocomplete="off"></label>
+<div class="seg" role="group" aria-label="View">
+<button type="button" id="v-topic" aria-pressed="true">By topic</button>
+<button type="button" id="v-date" aria-pressed="false">By date</button>
+</div>
+<div class="acts">
+<button type="button" id="expand">Open all</button>
+<button type="button" id="collapse">Close all</button>
+</div>
+</div>
+<div class="frow" role="group" aria-label="Filter by status">
+<span class="flab">Status</span>
+<button type="button" class="chip" data-f="status" data-v="done" aria-pressed="false"><i class="dot done"></i>Done</button>
+<button type="button" class="chip" data-f="status" data-v="progress" aria-pressed="false"><i class="dot prog"></i>In progress</button>
+<button type="button" class="chip" data-f="status" data-v="waiting" aria-pressed="false"><i class="dot wait"></i>Waiting</button>
+<button type="button" class="chip" data-f="status" data-v="planned" aria-pressed="false"><i class="dot plan"></i>Planned</button>
+<span class="flab">Month</span><button type="button" class="chip" data-f="month" data-v="2026-10" aria-pressed="false">October</button><button type="button" class="chip" data-f="month" data-v="2026-09" aria-pressed="false">September</button><button type="button" class="chip" data-f="month" data-v="2026-08" aria-pressed="false">August</button>
+</div>
+<div class="frow cats" role="group" aria-label="Filter by topic">
+<span class="flab">Topic</span><button type="button" class="chip" data-f="cat" data-v="pages" aria-pressed="false">Website pages <b>7</b></button><button type="button" class="chip" data-f="cat" data-v="articles" aria-pressed="false">Articles and guides <b>4</b></button><button type="button" class="chip" data-f="cat" data-v="search" aria-pressed="false">Google search <b>4</b></button><button type="button" class="chip" data-f="cat" data-v="maps" aria-pressed="false">Google Maps listings <b>9</b></button><button type="button" class="chip" data-f="cat" data-v="listings" aria-pressed="false">Other maps and directories <b>6</b></button><button type="button" class="chip" data-f="cat" data-v="links" aria-pressed="false">Links from other websites <b>4</b></button><button type="button" class="chip" data-f="cat" data-v="tech" aria-pressed="false">Speed and security <b>3</b></button><button type="button" class="chip" data-f="cat" data-v="contact" aria-pressed="false">Calls and requests <b>3</b></button><button type="button" class="chip" data-f="cat" data-v="facts" aria-pressed="false">Company facts and accuracy <b>5</b></button>
+</div>
+<div class="status-line"><span id="shown" aria-live="polite"></span><button type="button" id="clear" hidden>Clear filters</button></div>
+</aside>
+
+<div id="list">
+<div id="topicview"><section class="cat" id="c-pages" data-cat="pages">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-pages">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/><circle cx="7" cy="7" r=".6"/></svg>
+<span class="cn"><span class="cname">Website pages</span><span class="cdesc">New and rebuilt pages on the UES website</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">7</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="6 done, 1 in progress"><i class="done" style="flex:6" title="6 done"></i><i class="prog" style="flex:1" title="1 in progress"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-pages"><details class="item s-prog" id="i6" data-status="progress" data-cat="pages" data-months="2026-10" data-last="2026-10-15">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Oct 15</span><span class="cnt">6 pages</span><span class="catlabel">Website pages</span></span>
+<span class="ttl">More metro areas with a UES facility still have no city page</span>
+<span class="out">Six more city pages are being built for review. They stay hidden from Google until they are approved.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 15</span><span class="t">City pages started for review: Houston, Nashville and Murfreesboro, Fort Lauderdale, Orlando and Sanford, Indianapolis, and San Antonio and Seguin.</span></li></ul></div>
+</details><details class="item s-done" id="i5" data-status="done" data-cat="pages" data-months="2026-10" data-last="2026-10-13">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Oct 6 to 13</span><span class="cnt">14 pages</span><span class="catlabel">Website pages</span></span>
+<span class="ttl">The cities where UES trucks run every day had no pages of their own</span>
+<span class="out">14 city pages are live, each with the nearest facility, the towns it covers, the businesses UES serves there and a request form.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 6</span><span class="t">Eight city pages went live: Baltimore, Washington DC, Wilmington, Philadelphia, Trenton, Newark and Old Bridge, Phoenix, and Casa Grande.</span></li><li><span class="d">Oct 13</span><span class="t">Six more city pages went live: Atlanta and Peachtree City, Ocala, Greensboro, Cincinnati and Florence, Birmingham and Trussville, and Jacksonville.</span></li></ul></div>
+</details><details class="item s-done" id="i0" data-status="done" data-cat="pages" data-months="2026-08 2026-10" data-last="2026-10-07">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 25 to Oct 7</span><span class="cnt">2 changes</span><span class="catlabel">Website pages</span></span>
+<span class="ttl">The homepage did not clearly explain what UES does</span>
+<span class="out">A new homepage is live at the same address. It explains the used oil service, all nine services, what happens to the oil after pickup and how to request service.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 25</span><span class="t">New homepage went live.</span></li><li><span class="d">Oct 7</span><span class="t">Homepage top photo changed to a UES tanker on a pickup, and the top of the page now loads faster on phones.</span></li></ul></div>
+</details><details class="item s-done" id="i1" data-status="done" data-cat="pages" data-months="2026-09 2026-10" data-last="2026-10-07">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 16 to Oct 7</span><span class="cnt">6 changes</span><span class="catlabel">Website pages</span></span>
+<span class="ttl">The other pages sold UES short, and their Google titles did not say what each page was about</span>
+<span class="out">I redesigned the remaining pages with clearer information, a request form, current company figures and better Google titles and descriptions. Each page was checked after launch.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 16</span><span class="t">Hazardous waste page rewritten from Russell&#x27;s notes and published with Lisa&#x27;s approval.</span></li><li><span class="d">Sep 16 to 24</span><span class="t">The other rebuilt pages went live and were checked after launch.</span></li><li><span class="d">Sep 22</span><span class="t">UES photos added to the new pages wherever possible. Stock photos used only where no company photo fit.</span></li><li><span class="d">Oct 6</span><span class="t">Hazardous and universal waste pages updated to show the shared hazardous waste inbox and the 800 number, as Lisa asked.</span></li><li><span class="d">Oct 7</span><span class="t">Re-refinery page: new sections added on the plant, its impact and tours.</span></li><li><span class="d">Oct 7</span><span class="t">About page: new section added on the plant.</span></li></ul></div>
+</details><details class="item s-done" id="i3" data-status="done" data-cat="pages" data-months="2026-09 2026-10" data-last="2026-10-07">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 24 to Oct 7</span><span class="cnt">2 changes</span><span class="catlabel">Website pages</span></span>
+<span class="ttl">Visitors could not see every UES location in one place</span>
+<span class="out">The Locations page lists all 53 locations next to the map, each with its address and a link to its state page.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 24</span><span class="t">Locations page went live with all 53 locations.</span></li><li><span class="d">Oct 7</span><span class="t">Locations page: state finder added at the top, plus a list of locations you can filter by state.</span></li></ul></div>
+</details><details class="item s-done" id="i4" data-status="done" data-cat="pages" data-months="2026-09 2026-10" data-last="2026-10-07">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 25 to Oct 7</span><span class="cnt">3 changes</span><span class="catlabel">Website pages</span></span>
+<span class="ttl">Every state page had a different layout, eight named the wrong state, and seven states UES serves had no page</span>
+<span class="out">All 28 states UES serves have their own page with the same layout, a map, services, common questions and a request form.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 25</span><span class="t">All 28 state pages went live, each with its own Google title and description.</span></li><li><span class="d">Sep 27</span><span class="t">New Jersey page updated to name the Old Bridge facility (Advantage Environmental Corp.).</span></li><li><span class="d">Oct 7</span><span class="t">State pages: a map of each state&#x27;s facilities and a card for each facility added.</span></li></ul></div>
+</details><details class="item s-done" id="i2" data-status="done" data-cat="pages" data-months="2026-09 2026-10" data-last="2026-10-06">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 16 to Oct 6</span><span class="cnt">2 changes</span><span class="catlabel">Website pages</span></span>
+<span class="ttl">Businesses looking for universal waste disposal (batteries, bulbs, ballasts, electronics) found nothing about it</span>
+<span class="out">A universal waste page is live. It explains the service, keeps hazardous and non-hazardous materials separate and has its own request form.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 16</span><span class="t">Universal waste page went live.</span></li><li><span class="d">Oct 6</span><span class="t">Universal waste page added to the Services menu, the footer and the services page.</span></li></ul></div>
+</details></div>
+</section><section class="cat" id="c-articles" data-cat="articles">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-articles">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h9l3 3v13H6z"/><path d="M9 11h6M9 15h6"/></svg>
+<span class="cn"><span class="cname">Articles and guides</span><span class="cdesc">Articles, rules guides and downloads for businesses</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">4</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="3 done, 1 in progress"><i class="done" style="flex:3" title="3 done"></i><i class="prog" style="flex:1" title="1 in progress"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-articles"><details class="item s-prog" id="i8" data-status="progress" data-cat="articles" data-months="2026-10" data-last="2026-10-22">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Oct 20 to 22</span><span class="cnt">2 coming up</span><span class="catlabel">Articles and guides</span></span>
+<span class="ttl">Upcoming articles on the blog schedule</span>
+<span class="out">Two articles a week are planned through December 1, each on a topic people already search for.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 20</span><span class="t">Article scheduled to publish: &quot;Used oil recycling: what happens to your used oil after pickup.&quot;</span></li><li><span class="d">Oct 22</span><span class="t">Article written and in review: &quot;Used oil storage for businesses: tanks, containment, spill kits and SPCC plans.&quot;</span></li></ul></div>
+</details><details class="item s-done" id="i7" data-status="done" data-cat="articles" data-months="2026-10" data-last="2026-10-15">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Oct 9 to 15</span><span class="cnt">3 articles</span><span class="catlabel">Articles and guides</span></span>
+<span class="ttl">The site rarely published anything new, so Google had little to show what UES knows</span>
+<span class="out">Articles now publish on a set schedule. Each one is written for businesses, checked against the federal rules and linked to the matching service page.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 9</span><span class="t">Article published: &quot;Where to dispose of used motor oil when you run a shop, fleet or dealership.&quot; Reviewed by Scott Eddings.</span></li><li><span class="d">Oct 12</span><span class="t">Article published: &quot;How the EPA classifies used oil, and when hazardous waste rules apply.&quot; Reviewed by Scott Eddings.</span></li><li><span class="d">Oct 15</span><span class="t">Article published: &quot;Universal waste explained: batteries, lamps, aerosol cans and the rules for businesses.&quot;</span></li></ul></div>
+</details><details class="item s-done" id="i9" data-status="done" data-cat="articles" data-months="2026-10" data-last="2026-10-09">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Oct 9</span><span class="cnt">3 changes</span><span class="catlabel">Articles and guides</span></span>
+<span class="ttl">Businesses had nowhere on the site to learn the used oil rules</span>
+<span class="out">A used oil rules section is live: an overview page and four guides, reviewed by Scott Eddings.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 9</span><span class="t">Used oil rules section went live with an overview page and four guides: what a business that generates used oil has to do, what a collector must have, state rules, and UES permits and registrations.</span></li><li><span class="d">Oct 9</span><span class="t">Two free printable downloads added to the rules section: a used oil storage checklist and a sign for the wall by the used oil tank.</span></li><li><span class="d">Oct 9</span><span class="t">Links added from the guides to the used oil pickup page and the service pages, and from those pages back to the guides.</span></li></ul></div>
+</details><details class="item s-done" id="i10" data-status="done" data-cat="articles" data-months="2026-10" data-last="2026-10-09">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Oct 9</span><span class="catlabel">Articles and guides</span></span>
+<span class="ttl">There was no single place to find the articles and guides</span>
+<span class="out">A Resources page lists the newest articles, the rules guides, the downloads, common questions and a state finder.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 9</span><span class="t">Resources page went live.</span></li></ul></div>
+</details></div>
+</section><section class="cat" id="c-search" data-cat="search">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-search">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+<span class="cn"><span class="cname">Google search</span><span class="cdesc">How Google sees and lists the site</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">4</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="3 done, 1 in progress"><i class="done" style="flex:3" title="3 done"></i><i class="prog" style="flex:1" title="1 in progress"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-search"><details class="item s-prog" id="i14" data-status="progress" data-cat="search" data-months="2026-10" data-last="2026-10-15">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Oct 13 to 15</span><span class="cnt">2 changes</span><span class="catlabel">Google search</span></span>
+<span class="ttl">Some Google titles did not match the words people search with</span>
+<span class="out">People search for &quot;waste oil pickup&quot; and &quot;used oil pickup&quot;, while several titles said only &quot;collection&quot;. I am rewriting those titles and descriptions.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 13</span><span class="t">Used oil pickup page: new Google title and description that match those searches. <span class="mini done">Done</span></span></li><li><span class="d">Oct 15</span><span class="t">New Google titles and descriptions written and checked for 26 state pages and one rules guide. They go live after review.</span></li></ul></div>
+</details><details class="item s-done" id="i13" data-status="done" data-cat="search" data-months="2026-10" data-last="2026-10-15">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Oct 9 to 15</span><span class="cnt">4 sends</span><span class="catlabel">Google search</span></span>
+<span class="ttl">New pages could take weeks for Google to find on its own</span>
+<span class="out">New pages are now sent to Google the day they go live.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 9</span><span class="t">Sent to Google: the rules section, the first article and the Resources page.</span></li><li><span class="d">Oct 12</span><span class="t">Sent to Google: the second article.</span></li><li><span class="d">Oct 15</span><span class="t">Sent to Google: the six city pages that went live Oct 13.</span></li><li><span class="d">Oct 15</span><span class="t">Sent to Google: the third article.</span></li></ul></div>
+</details><details class="item s-done" id="i11" data-status="done" data-cat="search" data-months="2026-08 2026-10" data-last="2026-10-05">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 6 to Oct 5</span><span class="cnt">3 changes</span><span class="catlabel">Google search</span></span>
+<span class="ttl">Google had an outdated and cluttered list of the site&#x27;s pages</span>
+<span class="out">Google now gets a clean, current list of pages, and old addresses send visitors to the right page.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 6 and 7</span><span class="t">Site page list (sitemap) updated and submitted to Google.</span></li><li><span class="d">Aug 9</span><span class="t">Empty and outdated pages removed from the sitemap, and old spam categories deleted.</span></li><li><span class="d">Oct 5</span><span class="t">Three old service page addresses set to forward visitors and Google to the current pages.</span></li></ul></div>
+</details><details class="item s-done" id="i12" data-status="done" data-cat="search" data-months="2026-09" data-last="2026-09-30">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 28 to 30</span><span class="cnt">2 changes</span><span class="catlabel">Google search</span></span>
+<span class="ttl">Google did not have complete location and service details in the format it reads</span>
+<span class="out">State, city and service pages carry location, service and common question details in Google&#x27;s format. All pages passed Google&#x27;s test with no errors.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 28 and 29</span><span class="t">Location and service details added to the state and service pages in Google&#x27;s format, then tested.</span></li><li><span class="d">Sep 30</span><span class="t">Common questions on the state pages added in Google&#x27;s format. The city pages carry them too.</span></li></ul></div>
+</details></div>
+</section><section class="cat" id="c-maps" data-cat="maps">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-maps">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>
+<span class="cn"><span class="cname">Google Maps listings</span><span class="cdesc">The UES locations on Google Maps</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">9</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="4 done, 3 in progress, 1 waiting on others, 1 planned"><i class="done" style="flex:4" title="4 done"></i><i class="prog" style="flex:3" title="3 in progress"></i><i class="wait" style="flex:1" title="1 waiting on others"></i><i class="plan" style="flex:1" title="1 planned"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-maps"><details class="item s-wait" id="i15" data-status="waiting" data-cat="maps" data-months="2026-10" data-last="2026-10-15">
+<summary><span class="sum">
+<span class="top"><span class="pill wait">Waiting on others</span><span class="date">Now</span><span class="who">Waiting on Lisa</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">The Boonville, Indiana listing is suspended</span>
+<span class="out">I am waiting for the signed Boonville lease. Once I have it, I file the appeal with the Indiana registration form and the lease.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Now</span><span class="t">Boonville appeal on hold until the signed lease arrives from Lisa.</span></li></ul></div>
+</details><details class="item s-prog" id="i19" data-status="progress" data-cat="maps" data-months="2026-09 2026-10" data-last="2026-10-13">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Sep 29 to Oct 13</span><span class="cnt">76 photos</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">The listings had few or no photos</span>
+<span class="out">I have added photos to 10 listings so far, from the photos Lisa&#x27;s team collected. More go up as they come in.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 29</span><span class="t">Photos added to three listings: Sylacauga (7), Murfreesboro (14) and Old Bridge (1).</span></li><li><span class="d">Oct 13</span><span class="t">Photos added to seven listings: Fort Myers (8), Kansas City (4), Memphis (4), Ocala (7), Portage (3), Ashland, which serves Richmond (11), and Trussville (17).</span></li><li><span class="d">Next</span><span class="t">Next listings to get photos: Knoxville and St. Louis, once their listings are sorted out. <span class="mini plan">Planned</span></span></li></ul></div>
+</details><details class="item s-prog" id="i21" data-status="progress" data-cat="maps" data-months="2026-10" data-last="2026-10-13">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Oct 13</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">Some of the 24 newly added locations were not live yet</span>
+<span class="out">As of October 13, Google shows 53 UES listings. Fairmont City and Knoxville still need work, and six listings show changes Google is still processing.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 13</span><span class="t">Fairmont City and Knoxville listings still marked by Google as duplicates of older UES listings.</span></li><li><span class="d">Oct 13</span><span class="t">Six listings still show changes Google is processing: Cleveland OH, Cresson, Fort Myers, Kansas City, Nitro and Sand Springs.</span></li></ul></div>
+</details><details class="item s-prog" id="i22" data-status="progress" data-cat="maps" data-months="2026-09" data-last="2026-09-27">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Sep 27</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">The Arizona listing shows the Georgia phone number</span>
+<span class="out">Google rejected the first correction, so I resubmitted it and filed an appeal. The listing should show the 800 number Lisa confirmed for all locations.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 27</span><span class="t">Arizona phone number correction resubmitted to Google, and appeal filed.</span></li></ul></div>
+</details><details class="item s-plan" id="i23" data-status="planned" data-cat="maps" data-months="" data-last="9999">
+<summary><span class="sum">
+<span class="top"><span class="pill plan">Planned</span><span class="date">November</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">There is no routine for asking for reviews or answering them</span>
+<span class="out">Planned for November. The review links are ready. Next: printed QR cards for drivers, a simple routine with Lisa, and replies to new and existing reviews.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">November</span><span class="t">Review routine and review replies start.</span></li></ul></div>
+</details><details class="item s-done" id="i18" data-status="done" data-cat="maps" data-months="2026-09" data-last="2026-09-29">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 28 to 29</span><span class="cnt">3 changes</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">The listings had no descriptions or years-old ones, different hours, and links to the homepage</span>
+<span class="out">Every one of the 52 UES listings has its own description, the same hours and a link to its own state page.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 28 and 29</span><span class="t">Description added to each listing, naming the facility, nearby areas and services. (UES has 53 locations: 52 under the UES name, and Old Bridge under the Advantage Environmental name.)</span></li><li><span class="d">Sep 28 and 29</span><span class="t">Hours on every listing set to Monday to Friday, 8 AM to 5 PM, as Lisa confirmed.</span></li><li><span class="d">Sep 28</span><span class="t">Website link on each listing changed to its state page, with those visits tracked separately.</span></li></ul></div>
+</details><details class="item s-done" id="i20" data-status="done" data-cat="maps" data-months="2026-09" data-last="2026-09-29">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 29</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">Customers had no easy way to leave a Google review for the location that served them</span>
+<span class="out">Every location has its own review link, kept in a shared spreadsheet. Alonso is adding the links to the pickup receipt emails.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 29</span><span class="t">Google review link created for every location.</span></li></ul></div>
+</details><details class="item s-done" id="i16" data-status="done" data-cat="maps" data-months="2026-08 2026-09" data-last="2026-09-18">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 14 to Sep 18</span><span class="cnt">2 changes</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">The Old Bridge, New Jersey listing was suspended and did not appear on Google Maps</span>
+<span class="out">Old Bridge is back on Google Maps through the existing Advantage Environmental listing. It keeps that name until UES is licensed in New Jersey, and can then be renamed without losing its history.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 14</span><span class="t">Old Bridge location recovered on Google Maps.</span></li><li><span class="d">Sep 18</span><span class="t">Old Bridge listing moved into the UES Google account with the other locations.</span></li></ul></div>
+</details><details class="item s-done" id="i17" data-status="done" data-cat="maps" data-months="2026-09" data-last="2026-09-18">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 5 to 18</span><span class="cnt">2 changes</span><span class="catlabel">Google Maps listings</span></span>
+<span class="ttl">The Sylacauga, Alabama listing was missing from Google Maps</span>
+<span class="out">The listing is verified and live, so every Alabama location shows on the map.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 5</span><span class="t">Sylacauga listing verified and live on Google Maps.</span></li><li><span class="d">Sep 18</span><span class="t">Old outside account removed from the Sylacauga listing.</span></li></ul></div>
+</details></div>
+</section><section class="cat" id="c-listings" data-cat="listings">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-listings">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+<span class="cn"><span class="cname">Other maps and directories</span><span class="cdesc">Apple, Bing, LinkedIn, Facebook and directory sites</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">6</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="1 done, 5 in progress"><i class="done" style="flex:1" title="1 done"></i><i class="prog" style="flex:5" title="5 in progress"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-listings"><details class="item s-prog" id="i27" data-status="progress" data-cat="listings" data-months="2026-10" data-last="2026-10-13">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Oct 13</span><span class="catlabel">Other maps and directories</span></span>
+<span class="ttl">Wastebits, a waste industry directory, listed UES with old addresses and missing locations</span>
+<span class="out">I sent Wastebits the full, current list of UES facilities.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 13</span><span class="t">Request sent to Wastebits to fix 7 addresses, remove 3 outdated entries and add 40 facilities, each linked to its state page.</span></li></ul></div>
+</details><details class="item s-prog" id="i26" data-status="progress" data-cat="listings" data-months="2026-10" data-last="2026-10-01">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Oct 1</span><span class="cnt">4 listings</span><span class="catlabel">Other maps and directories</span></span>
+<span class="ttl">Business directories showed old UES details, including old figures and wrong contact details</span>
+<span class="out">UES has its own shared account for directory sites. Listings are being claimed and corrected one site at a time.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 1</span><span class="t">Manta: Peachtree City, Trussville and Sylacauga listings claimed and corrected. The Sylacauga listing had another company&#x27;s old phone number and website; both are gone.</span></li><li><span class="d">Oct 1</span><span class="t">Yelp: Peachtree City listing claimed and filled in.</span></li><li><span class="d">Next</span><span class="t">Next: the remaining directory sites, one at a time.</span></li></ul></div>
+</details><details class="item s-prog" id="i25" data-status="progress" data-cat="listings" data-months="2026-09" data-last="2026-09-30">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Sep 30</span><span class="cnt">52 listings</span><span class="catlabel">Other maps and directories</span></span>
+<span class="ttl">The Bing Maps listings were out of date</span>
+<span class="out">All 52 listings now carry the same information as the Google listings: description, inquiries email, hours, services and a link to each state page. Bing is reviewing the changes.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 30</span><span class="t">All 52 Bing listings updated.</span></li></ul></div>
+</details><details class="item s-prog" id="i24" data-status="progress" data-cat="listings" data-months="2026-09" data-last="2026-09-29">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Sep 29</span><span class="cnt">50 locations</span><span class="catlabel">Other maps and directories</span></span>
+<span class="ttl">UES locations were missing from Apple Maps</span>
+<span class="out">I submitted 50 UES locations to Apple. Apple is reviewing them, which usually takes a few weeks.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 29</span><span class="t">50 UES locations submitted to Apple Maps.</span></li></ul></div>
+</details><details class="item s-prog" id="i29" data-status="progress" data-cat="listings" data-months="2026-09" data-last="2026-09-25">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Sep 25</span><span class="catlabel">Other maps and directories</span></span>
+<span class="ttl">UES lost access to its Facebook page when the only person who managed it left</span>
+<span class="out">I am preparing Facebook&#x27;s ownership claim with Lisa. We also agreed to add backup managers to every UES Google and social media account so one departure cannot lock the company out again.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 25</span><span class="t">Facebook page recovery started with Lisa.</span></li></ul></div>
+</details><details class="item s-done" id="i28" data-status="done" data-cat="listings" data-months="2026-09" data-last="2026-09-29">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 29</span><span class="catlabel">Other maps and directories</span></span>
+<span class="ttl">The UES LinkedIn page described the company as 14 states with 100 trucks and 40 million gallons a year</span>
+<span class="out">Updated with the current figures: 28 states, 53 locations, more than 400 trucks and more than 90 million gallons a year.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 29</span><span class="t">LinkedIn page updated with the current figures.</span></li></ul></div>
+</details></div>
+</section><section class="cat" id="c-links" data-cat="links">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-links">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>
+<span class="cn"><span class="cname">Links from other websites</span><span class="cdesc">Government, association and directory pages that mention UES</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">4</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="2 done, 1 in progress, 1 waiting on others"><i class="done" style="flex:2" title="2 done"></i><i class="prog" style="flex:1" title="1 in progress"></i><i class="wait" style="flex:1" title="1 waiting on others"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-links"><details class="item s-wait" id="i31" data-status="waiting" data-cat="links" data-months="2026-10" data-last="2026-10-15">
+<summary><span class="sum">
+<span class="top"><span class="pill wait">Waiting on others</span><span class="date">Oct 7 to 15</span><span class="cnt">5 sites</span><span class="who">Waiting on the sites</span><span class="catlabel">Links from other websites</span></span>
+<span class="ttl">More listings are accepted and waiting to be published</span>
+<span class="out">These sites said yes. Each one adds UES on its own schedule.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 13</span><span class="t">Loudoun County, VA accepted UES for its recycling resources list.</span></li><li><span class="d">Oct 7</span><span class="t">RecycleSpot (Kansas City region) approved a UES record. It is waiting to publish.</span></li><li><span class="d">Oct 8</span><span class="t">Wisconsin Recycling Markets Directory agreed to add UES in its January update.</span></li><li><span class="d">Oct 13</span><span class="t">Maryland Department of Natural Resources agreed to add UES to the next Clean Marina guidebook, early 2027.</span></li><li><span class="d">Oct 15</span><span class="t">South Carolina Recycling Markets Directory: form sent to list St. George and Spartanburg.</span></li></ul></div>
+</details><details class="item s-prog" id="i33" data-status="progress" data-cat="links" data-months="2026-10" data-last="2026-10-02">
+<summary><span class="sum">
+<span class="top"><span class="pill prog">In progress</span><span class="date">Oct 2 on</span><span class="cnt">130+ requests</span><span class="catlabel">Links from other websites</span></span>
+<span class="ttl">Very few other websites link to UES, so Google has less outside proof that the company is established</span>
+<span class="out">Since early October I have sent more than 130 requests to county and state agencies, associations, directories and trade publications. Every reply is answered and tracked.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 2 on</span><span class="t">Link requests started going out from the shared UES listings mailbox.</span></li></ul></div>
+</details><details class="item s-done" id="i32" data-status="done" data-cat="links" data-months="2026-10" data-last="2026-10-14">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Oct 6 to 14</span><span class="cnt">2 changes</span><span class="catlabel">Links from other websites</span></span>
+<span class="ttl">The used oil recycling association (Enfinite, formerly NORA) listed UES as Avista Oil, with an old link</span>
+<span class="out">Enfinite now shows a combined UES and Avista Oil logo, and its link uses the secure web address.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 6</span><span class="t">Combined UES and Avista Oil logo sent to Enfinite, using its free option.</span></li><li><span class="d">Oct 14</span><span class="t">Enfinite&#x27;s link to UES changed to the secure (https) address.</span></li></ul></div>
+</details><details class="item s-done" id="i30" data-status="done" data-cat="links" data-months="2026-10" data-last="2026-10-13">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Oct 6 to 13</span><span class="cnt">7 sites</span><span class="catlabel">Links from other websites</span></span>
+<span class="ttl">Local governments did not list UES among the companies businesses can call</span>
+<span class="out">UES is now on six county and regional recycling pages and in North Carolina&#x27;s recycling directory.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Oct 6</span><span class="t">UES added to the North Carolina Recycling Markets Directory for Browns Summit and Wilson.</span></li><li><span class="d">Oct 7</span><span class="t">Collier County, FL contractor list: UES phone number corrected to the 800 number, and UES added under hazardous waste and used oil.</span></li><li><span class="d">Oct 8</span><span class="t">UES added to Chatham County, NC&#x27;s list of hazardous waste companies for businesses, with a link to the North Carolina page.</span></li><li><span class="d">Oct 13</span><span class="t">UES added to St. Johns County, FL&#x27;s commercial hazardous waste vendor list (phone only; the county does not add website links).</span></li><li><span class="d">Oct 13</span><span class="t">UES added to the SouthEastern Ohio solid waste district&#x27;s business recycling lists for oil and lamps.</span></li><li><span class="d">Oct 13</span><span class="t">UES added to Pinellas County, FL&#x27;s business disposal guide.</span></li><li><span class="d">Oct 13</span><span class="t">UES approved for Wake County, NC&#x27;s hazardous waste page for businesses. Not showing on the page yet.</span></li></ul></div>
+</details></div>
+</section><section class="cat" id="c-tech" data-cat="tech">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-tech">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg>
+<span class="cn"><span class="cname">Speed and security</span><span class="cdesc">Web addresses, software, server and speed</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">3</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="3 done"><i class="done" style="flex:3" title="3 done"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-tech"><details class="item s-done" id="i36" data-status="done" data-cat="tech" data-months="2026-08 2026-10" data-last="2026-10-07">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 26 to Oct 7</span><span class="cnt">3 changes</span><span class="catlabel">Speed and security</span></span>
+<span class="ttl">The homepage was slow on phones and hard to use with a screen reader</span>
+<span class="out">The homepage loads about two-thirds less data and passes Google&#x27;s accessibility test.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 26 and 27</span><span class="t">Homepage images, maps and forms changed to load in a lighter way. The page is much faster on phones.</span></li><li><span class="d">Aug 26</span><span class="t">Homepage problems fixed for software used by blind visitors.</span></li><li><span class="d">Oct 7</span><span class="t">Site maps changed so they work with a keyboard.</span></li></ul></div>
+</details><details class="item s-done" id="i34" data-status="done" data-cat="tech" data-months="2026-08" data-last="2026-08-09">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 3 to 9</span><span class="cnt">6 changes</span><span class="catlabel">Speed and security</span></span>
+<span class="ttl">The site could be reached at several addresses, and some pages had copies competing on Google</span>
+<span class="out">One main address for the site, one address for each page, and every old address sends visitors and Google to the right place.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 3 and 4</span><span class="t">Main web address set. The site answered at four different addresses, and the other three now forward to the main one.</span></li><li><span class="d">Aug 4</span><span class="t">Full copy of the site at a second address set to forward to the real site.</span></li><li><span class="d">Aug 5</span><span class="t">Georgia and antifreeze pages moved to clean addresses in place of ones ending in -2.</span></li><li><span class="d">Aug 5</span><span class="t">Two copies of the West Virginia page merged into one.</span></li><li><span class="d">Aug 9</span><span class="t">Two Missouri pages merged into one.</span></li><li><span class="d">Aug 9</span><span class="t">More than 400 links inside the site updated to the correct secure address.</span></li></ul></div>
+</details><details class="item s-done" id="i35" data-status="done" data-cat="tech" data-months="2026-08" data-last="2026-08-07">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 4 to 7</span><span class="cnt">3 changes</span><span class="catlabel">Speed and security</span></span>
+<span class="ttl">The website&#x27;s software and server were years out of date</span>
+<span class="out">The site runs on current software and a larger, updated server, with security certificates that renew on their own.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 4</span><span class="t">Site settings changed so returning visitors no longer download everything again.</span></li><li><span class="d">Aug 6</span><span class="t">Website software updated and its license registered, so future updates install normally.</span></li><li><span class="d">Aug 7</span><span class="t">Site moved to a larger server with no downtime. Security certificate renewals are now automatic.</span></li></ul></div>
+</details></div>
+</section><section class="cat" id="c-contact" data-cat="contact">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-contact">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+<span class="cn"><span class="cname">Calls and requests</span><span class="cdesc">Forms, phone buttons and tracking</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">3</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="3 done"><i class="done" style="flex:3" title="3 done"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-contact"><details class="item s-done" id="i39" data-status="done" data-cat="contact" data-months="2026-09 2026-10" data-last="2026-10-13">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 16 to Oct 13</span><span class="cnt">3 changes</span><span class="catlabel">Calls and requests</span></span>
+<span class="ttl">Calling, asking for service or paying an invoice took too many steps</span>
+<span class="out">Every rebuilt page has a request form, phones show a call and request bar, and paying an invoice is one click from any page.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 16 to 24</span><span class="t">Request form added to every rebuilt page, with choices that match the page.</span></li><li><span class="d">Sep 28</span><span class="t">&quot;Pay an invoice&quot; link added at the top of every page, in the phone menu and on the homepage.</span></li><li><span class="d">Oct 13</span><span class="t">Call and request bar added for phones. It stays at the bottom of every page with a request form.</span></li></ul></div>
+</details><details class="item s-done" id="i38" data-status="done" data-cat="contact" data-months="2026-08" data-last="2026-08-19">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 19</span><span class="catlabel">Calls and requests</span></span>
+<span class="ttl">Analytics did not record form requests and missed many phone calls</span>
+<span class="out">Tracking added for forms, calls, email clicks and Customer Portal clicks, so these show up in the monthly reports.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 19</span><span class="t">Tracking turned on for forms, calls, email clicks and Customer Portal clicks.</span></li></ul></div>
+</details><details class="item s-done" id="i37" data-status="done" data-cat="contact" data-months="2026-08" data-last="2026-08-14">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 14</span><span class="catlabel">Calls and requests</span></span>
+<span class="ttl">The website had not sent contact form emails since 2024</span>
+<span class="out">Fixed the email system and tested the forms. Requests reach the inquiries inbox again, with spam protection in place.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 14</span><span class="t">Contact form emails fixed and tested.</span></li></ul></div>
+</details></div>
+</section><section class="cat" id="c-facts" data-cat="facts">
+<h2 class="cathead"><button type="button" class="cattog" aria-expanded="true" aria-controls="cb-facts">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6"/></svg>
+<span class="cn"><span class="cname">Company facts and accuracy</span><span class="cdesc">Making UES details match everywhere</span></span>
+<span class="cmeta"><span class="ccount"><b class="vis">5</b> <span class="lbl">items</span></span><span class="mbar" role="img" aria-label="5 done"><i class="done" style="flex:5" title="5 done"></i></span></span>
+<span class="chev" aria-hidden="true"></span></button></h2>
+<div class="catbody" id="cb-facts"><details class="item s-done" id="i41" data-status="done" data-cat="facts" data-months="2026-09 2026-10" data-last="2026-10-07">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 23 to Oct 7</span><span class="cnt">2 changes</span><span class="catlabel">Company facts and accuracy</span></span>
+<span class="ttl">The site&#x27;s maps came from an outside service that slowed pages and had mistakes</span>
+<span class="out">New maps are built into the UES website. Every facility was checked against its real address, and Juan approved the maps.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 23 to 25</span><span class="t">Outside map service replaced with maps built into the site. The old maps added about 1.7 MB to each page and showed an Arizona facility on the Arkansas map.</span></li><li><span class="d">Oct 7</span><span class="t">State picker added above every US map, and the map added to the service pages.</span></li></ul></div>
+</details><details class="item s-done" id="i42" data-status="done" data-cat="facts" data-months="2026-09" data-last="2026-09-25">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Sep 22 to 25</span><span class="catlabel">Company facts and accuracy</span></span>
+<span class="ttl">Staff names and direct phone numbers went out of date whenever someone left</span>
+<span class="out">Customers now see the main 800 number and the inquiries email, as Lisa decided on September 22.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Sep 22 to 25</span><span class="t">Staff names and direct numbers removed from the maps and location listings.</span></li></ul></div>
+</details><details class="item s-done" id="i40" data-status="done" data-cat="facts" data-months="2026-08" data-last="2026-08-25">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 20 to 25</span><span class="cnt">3 changes</span><span class="catlabel">Company facts and accuracy</span></span>
+<span class="ttl">The website, Google listings and internal records disagreed on how many states and locations UES has</span>
+<span class="out">Lisa and I settled on one confirmed set of numbers: 28 states and 53 locations. Her master location list is now the source for the website and the listings.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 20</span><span class="t">State and location numbers settled with Lisa. Her list caught one listing at an old address and two others that were out of date.</span></li><li><span class="d">Aug 21</span><span class="t">Coverage maps updated to the 28 states UES serves.</span></li><li><span class="d">Aug 25</span><span class="t">Two service pages that said 25 states and 14 states corrected to 28.</span></li></ul></div>
+</details><details class="item s-done" id="i43" data-status="done" data-cat="facts" data-months="2026-08" data-last="2026-08-13">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 13</span><span class="catlabel">Company facts and accuracy</span></span>
+<span class="ttl">The refinery website&#x27;s FAQ said UES does not handle hazardous waste</span>
+<span class="out">The answer now explains that UES does handle hazardous waste, through a service separate from the re-refinery.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 13</span><span class="t">Hazardous waste answer corrected in the FAQ on theuesrefinery.com.</span></li></ul></div>
+</details><details class="item s-done" id="i44" data-status="done" data-cat="facts" data-months="2026-08" data-last="2026-08-03">
+<summary><span class="sum">
+<span class="top"><span class="pill done">Done</span><span class="date">Aug 3</span><span class="catlabel">Company facts and accuracy</span></span>
+<span class="ttl">The footer still read 2017 to 2022</span>
+<span class="out">It reads 2026 and now updates itself each year.</span>
+</span><span class="chev" aria-hidden="true"></span></summary>
+<div class="body"><ul class="log"><li><span class="d">Aug 3</span><span class="t">Footer year corrected to 2026 and set to update itself.</span></li></ul></div>
+</details></div>
+</section></div>
+<div id="dateview" hidden></div>
+<div id="empty" class="empty" hidden><p>No items match these filters.</p><button type="button" id="clear2">Clear filters</button></div>
+</div>
 </div>
 
-<div class="wait">
-
-<h2><span class="n">1</span>Waiting on others</h2>
-
-<p>This item cannot move forward until the required documents are received. It is not holding up the other work.</p>
-
-<table>
-  <tr><th>What I am waiting for</th><th>Who has it</th></tr>
-  <tr>
-    <td class="prob">Paperwork to appeal the Boonville, Indiana suspension</td>
-    <td><b>Lisa and Paul Stewart.</b> Google requires a business registration or license and a utility bill showing the Boonville business name and address. Paul is getting these from Heritage Petroleum. Once I receive them, I can submit the appeal.</td>
-  </tr>
-</table>
-
-</div>
-
-<h2><span class="n">2</span>Problems solved</h2>
-
-<p>Most of these are the kind of issues that build up when a site goes a long time without a technical review. Where a change affected the live site, it was checked before and after.</p>
-
-<table>
-
-  <tr><th>The problem</th><th>What we did about it</th><th>When</th></tr>
-
-  <tr>
-    <td class="prob">The footer still read 2017 to 2022</td>
-    <td>Changed it to 2026 and made the year update automatically from now on.</td>
-    <td class="when">August 3</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The website could be reached through four different addresses, which could confuse Google</td>
-    <td>Set one address as the main version of the site. The other three now send visitors and Google to it automatically.</td>
-    <td class="when">August 3 and 4</td>
-  </tr>
-
-  <tr>
-    <td class="prob">A full copy of the site was public at a second address</td>
-    <td>That address now sends visitors and Google to the real site instead.</td>
-    <td class="when">August 4</td>
-  </tr>
-
-    <tr>
-    <td class="prob">Repeat visits to the website were slower than necessary</td>
-    <td>Changed the site settings so returning visitors do not have to download everything again.</td>
-    <td class="when">August 4</td>
-  </tr>
-
-    <tr>
-    <td class="prob">Two pages had messy web addresses ending in -2</td>
-    <td>Gave the Georgia and antifreeze pages clean addresses. The old addresses now send visitors and Google to the new ones.</td>
-    <td class="when">August 5</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Two copies of the West Virginia page were competing with each other on Google</td>
-    <td>Kept the better version at one clean address. The duplicate now sends visitors and Google to it.</td>
-    <td class="when">August 5</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The software used to run the website was several years out of date</td>
-    <td>Updated it to the current version and registered the license so future updates can be installed normally.</td>
-    <td class="when">August 6</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Google had an outdated list of the site's pages</td>
-    <td>Updated the sitemap and submitted the current version to Google.</td>
-    <td class="when">August 6 and 7</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The website's server was outdated and no longer large enough for the site</td>
-    <td>Moved the site to a larger, updated server without interrupting the website. Security certificate renewals are now automatic as well.</td>
-    <td class="when">August 7</td>
-  </tr>
-
-        <tr>
-    <td class="prob">More than 400 links inside the website still used old versions of the web address</td>
-    <td>Updated them to use the correct secure address directly.</td>
-    <td class="when">August 9</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Missouri had two separate pages competing with each other on Google</td>
-    <td>Merged them into one page at a single address. The old address now sends visitors and Google to it.</td>
-    <td class="when">August 9</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Google was being sent empty and outdated pages that should not appear in search results</td>
-    <td>Removed the unwanted pages from Google's site list and deleted old spam categories.</td>
-    <td class="when">August 9</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The FAQ on theuesrefinery.com said UES does not handle hazardous waste, which could turn away work UES wants to grow</td>
-    <td>Updated the answer to explain that UES does handle hazardous waste, through a separate service from the re-refinery.</td>
-    <td class="when">August 13</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The website had not been sending contact-form emails since 2024</td>
-    <td>Fixed the email system and tested both forms. Requests are reaching the inquiries inbox again, with spam protection in place.</td>
-    <td class="when">August 14</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The Old Bridge, New Jersey listing was suspended and did not appear on Google Maps</td>
-    <td>Recovered the location on Google Maps using the existing Advantage Environmental listing. It will keep that name until UES is licensed in New Jersey, at which point it can be renamed without losing its existing history.</td>
-    <td class="when">August 14</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Analytics was not recording form submissions and was missing most phone calls</td>
-    <td>Added tracking for forms, calls, email clicks and Customer Portal clicks so these can now be included in the monthly reports.</td>
-    <td class="when">August 19</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The website, Google listings and internal records all disagreed about how many states and locations UES has</td>
-    <td>Worked through the records with Lisa and settled on one confirmed set of numbers: 28 states served and 53 active locations. Her master location list is now the source used for the website and listings. It immediately caught one listing still pointing to an old address and two others that were also out of date.</td>
-    <td class="when">August 20</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The coverage maps on the site were missing states UES actually serves</td>
-    <td>Updated the maps everywhere they appear so they match the current 28-state service area.</td>
-    <td class="when">August 21</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The homepage did not clearly explain what UES does, either for visitors or for Google</td>
-    <td>A completely new homepage is live at the same web address. It now clearly explains UES's used oil collection service, all nine services, what happens to the oil after pickup, and how customers can request service.</td>
-    <td class="when">August 25</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Two service pages gave visitors the wrong service area, one saying 25 states and another saying 14 states in the Southeast</td>
-    <td>Both now use the confirmed figure of 28 states.</td>
-    <td class="when">August 25</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The homepage was slow to load, especially on phones</td>
-    <td>Reduced the amount of data the homepage loads by about two-thirds and changed how images, maps and forms load. The page now loads much faster, especially on phones.</td>
-    <td class="when">August 26 and 27</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Parts of the homepage could not be read properly by software used by blind visitors</td>
-    <td>Fixed the accessibility problems and confirmed the homepage now passes Google's accessibility test.</td>
-    <td class="when">August 26</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The Sylacauga, Alabama listing was not showing on Google Maps because Google had never verified it</td>
-    <td>The listing is now verified and live on Google Maps, so all Alabama locations appear on the map.</td>
-    <td class="when">September 5</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Every other page on the site sold UES short, the same problem the homepage had, and their Google titles did not clearly say what the pages were about</td>
-    <td>Redesigned the remaining website pages with clearer information, updated forms, current company figures and improved Google titles and descriptions. The pages were published between September 16 and 24 and checked after launch.</td>
-    <td class="when">September 16 to 24</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Businesses searching for universal waste disposal, including batteries, bulbs, ballasts and electronics, landed on the homepage, which said nothing about it</td>
-    <td>A new universal waste page is live. It explains the service, keeps hazardous and non-hazardous materials clearly separated and includes a request form.</td>
-    <td class="when">September 16</td>
-  </tr>
-
-  <tr>
-    <td class="prob">An old outside account still had access to manage the Sylacauga Google listing</td>
-    <td>Removed the outside account from the listing.</td>
-    <td class="when">September 18</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The Old Bridge listing was managed from a separate account instead of with the other UES locations</td>
-    <td>Moved it into the UES Google account with the other locations. It will keep the Advantage Environmental name and phone number until UES is licensed in New Jersey.</td>
-    <td class="when">September 18</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The new pages had empty spaces waiting for photos</td>
-    <td>UES photos were added wherever possible, with stock photos used only where no suitable company photo was available. A few image spots were removed where nothing fit naturally.</td>
-    <td class="when">September 22</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Staff names and direct phone numbers were spread across the site and maps, so the information went out of date whenever someone left</td>
-    <td>Removed staff names and direct numbers from the maps and location listings. Customers now see the main 800 number and inquiries email, as Lisa decided on September 22.</td>
-    <td class="when">September 22 to 25</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The site's maps came from an outside service that added about 1.7 MB to each page, could not be read by Google and contained mistakes, including an Arizona facility appearing on the Arkansas map</td>
-    <td>Replaced the outside map service with new maps built directly into the UES website. Every facility was checked against its actual address, and the maps now show the correct locations. Juan approved the new maps.</td>
-    <td class="when">September 23 to 25</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Visitors could not see every UES location in one place</td>
-    <td>The Locations page now lists all 53 locations next to the new map, with each address and a link to the matching state page.</td>
-    <td class="when">September 24</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Every state page had a different layout, eight told Google they were about the wrong state, and seven states UES serves had no page at all</td>
-    <td>All 28 states UES serves now have their own page with consistent information, maps, services, common questions and request forms. Every page also has its own Google title and description.</td>
-    <td class="when">September 25</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The Google listings had no descriptions, or descriptions that were years out of date</td>
-    <td>Every one of the 52 UES listings now has its own description naming the facility, the nearby areas it serves and the services it offers. Google is still reviewing three of them. (UES has 53 locations; 52 are listed on Google under the UES name, and Old Bridge is listed under the Advantage Environmental name.)</td>
-    <td class="when">September 28 and 29</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The listings showed different opening hours, and some showed none</td>
-    <td>Set every listing to Monday to Friday, 8 AM to 5 PM, the hours Lisa confirmed.</td>
-    <td class="when">September 28 and 29</td>
-  </tr>
-
-  <tr>
-    <td class="prob">A click on a Google listing sent people to the homepage instead of the page about their own area</td>
-    <td>Each listing now links to its state page, and the clicks are tracked separately so we can see how many customers come from the map.</td>
-    <td class="when">September 28</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Google did not have complete location and service information in the format it uses to understand website pages</td>
-    <td>Added this information to all applicable state and service pages and tested it with Google's tool. All pages passed with no errors.</td>
-    <td class="when">September 28 and 29</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Customers had no easy way to leave a Google review for the location that served them</td>
-    <td>Created a review link for every UES location and put them in a shared spreadsheet. 43 links work today; the other nine wait on Google finishing those listings. Alonso is adding the links to the pickup receipt emails, so each customer gets the link for their own location.</td>
-    <td class="when">September 29</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The UES LinkedIn page still described the company as covering 14 states with 100 trucks and 40 million gallons a year</td>
-    <td>Updated it with the current figures: 28 states, 53 locations, more than 400 trucks and more than 90 million gallons a year.</td>
-    <td class="when">September 29</td>
-  </tr>
-
-</table>
-
-<h2><span class="n">3</span>Being worked on right now</h2>
-
-<table>
-  <tr><th>The problem</th><th>Where it stands</th></tr>
-
-  <tr>
-    <td class="prob">UES lost access to its Facebook page when the only person who managed it left the company</td>
-    <td><span class="tag prog">IN PROGRESS</span>I am preparing Facebook's ownership claim with Lisa to recover access. We also agreed to add backup managers to every UES Google and social media account so one person's departure cannot lock the company out again.</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The cities where UES trucks run every day did not have pages of their own</td>
-    <td><span class="tag prog">IN PROGRESS</span>Eight city pages are built and checked: Baltimore, Washington DC, Wilmington, Philadelphia, Trenton, Casa Grande, Phoenix, and one page covering Newark and Old Bridge. They are hidden from Google until Lisa approves them, and go live the day she does.</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The live Google Maps listings were incomplete, with missing photos, services and descriptions</td>
-    <td><span class="tag prog">IN PROGRESS</span>Hours, descriptions and website links are done on all 52 listings. Photos are in place for Sylacauga, Murfreesboro and Old Bridge; the other locations get theirs as Lisa sends them.</td>
-  </tr>
-
-  <tr>
-    <td class="prob">UES locations were missing from Apple Maps</td>
-    <td><span class="tag prog">IN PROGRESS</span>Submitted 50 UES locations to Apple. Apple is reviewing them, which usually takes a few weeks.</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Several business directories still show outdated UES information, including old company figures and incorrect contact details</td>
-    <td><span class="tag prog">IN PROGRESS</span>LinkedIn is fixed. The remaining sites require UES-owned accounts, which I am setting up with Lisa before making the corrections.</td>
-  </tr>
-
-</table>
-
-<h2><span class="n">4</span>Problems still open</h2>
-
-<table>
-
-  <tr><th>The problem</th><th>What happens next</th></tr>
-
-  <tr>
-    <td class="prob">The Arizona listing shows the Georgia phone number</td>
-    <td><span class="tag prog">IN PROGRESS</span>Google rejected the first phone-number correction, so I resubmitted it and filed an appeal on September 27. The listing should use the 800 number Lisa confirmed for all locations.</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Eight of the 24 newly added locations are not live yet</td>
-    <td><span class="tag prog">IN PROGRESS</span>Six are still under Google review. Fairmont City and Knoxville were flagged as duplicates of older UES listings, so I am requesting ownership of those existing listings instead.</td>
-  </tr>
-
-  <tr>
-    <td class="prob">There is no routine for asking for reviews or answering them</td>
-    <td><span class="tag prog">PLANNED</span>The review links exist and are going onto the pickup receipts. Next: printed QR cards for drivers, a review routine with Lisa, and replies to existing and future reviews.</td>
-  </tr>
-
-  <tr>
-    <td class="prob">The site rarely publishes new information, so Google has limited evidence of UES's expertise</td>
-    <td><span class="tag prog">PLANNED</span>A list of topics for the first eight weeks is drafted, taken from the questions people actually search for. Publishing starts at two articles a week once the topics are approved.</td>
-  </tr>
-
-  <tr>
-    <td class="prob">Very few other websites link to UES, which gives Google less outside evidence that the company is established and trusted</td>
-    <td><span class="tag prog">PLANNED</span>Get UES listed and mentioned on relevant industry directories, associations, government resources and partner websites.</td>
-  </tr>
-
-</table>
-
-</div>
-
+<footer class="foot">
+<p>45 items covering 99 dated changes, August 3 to October 15. Items marked In progress, Waiting on others or Planned are updated as they move.</p>
+</footer>
+</main>
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var items=$$('.item');
+  var total=items.length;
+  var state={q:'',status:[],month:[],cat:[],view:'topic'};
+  var MONTHS={'08':'August','09':'September','10':'October','11':'November','12':'December'};
+
+  // remember where each item lives in the topic view
+  items.forEach(function(it,i){it._home=it.parentNode;it._order=i;});
+  // keep pristine copies of text for highlighting
+  var hl=$$('.ttl,.out,.log .t');
+  hl.forEach(function(el){el._orig=el.innerHTML;});
+
+  function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+  function highlight(el,q){
+    el.innerHTML=el._orig;
+    if(!q)return false;
+    var re=new RegExp(esc(q),'gi'),found=false;
+    var w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null),nodes=[],n;
+    while((n=w.nextNode()))nodes.push(n);
+    nodes.forEach(function(t){
+      if(!re.test(t.nodeValue)){re.lastIndex=0;return;}
+      re.lastIndex=0;found=true;
+      var f=document.createDocumentFragment(),s=t.nodeValue,last=0,m;
+      while((m=re.exec(s))){
+        f.appendChild(document.createTextNode(s.slice(last,m.index)));
+        var mk=document.createElement('mark');mk.textContent=m[0];f.appendChild(mk);
+        last=m.index+m[0].length;
+      }
+      f.appendChild(document.createTextNode(s.slice(last)));
+      t.parentNode.replaceChild(f,t);
+    });
+    return found;
+  }
+
+  function matches(it){
+    if(state.status.length&&state.status.indexOf(it.dataset.status)<0)return false;
+    if(state.cat.length&&state.cat.indexOf(it.dataset.cat)<0)return false;
+    if(state.month.length){
+      var ms=(it.dataset.months||'').split(' ');
+      if(!state.month.some(function(m){return ms.indexOf(m)>=0}))return false;
+    }
+    if(state.q&&it.textContent.toLowerCase().indexOf(state.q)<0)return false;
+    return true;
+  }
+
+  function apply(){
+    var shown=0,q=state.q;
+    items.forEach(function(it){
+      var ok=matches(it);
+      it.hidden=!ok;
+      if(ok)shown++;
+      var inBody=false,inSum=false;
+      $$('.ttl,.out',it).forEach(function(el){if(highlight(el,q))inSum=true;});
+      $$('.log .t',it).forEach(function(el){if(highlight(el,q))inBody=true;});
+      if(q&&ok&&inBody&&!inSum)it.open=true;
+    });
+    $$('.cat').forEach(function(sec){
+      var vis=$$('.item',sec).filter(function(i){return !i.hidden}).length;
+      sec.hidden=vis===0;
+      var b=$('.ccount .vis',sec);if(b)b.textContent=vis;
+      var l=$('.ccount .lbl',sec);if(l)l.textContent=vis===1?'item':'items';
+    });
+    $$('.month').forEach(function(m){
+      var vis=$$('.item',m).filter(function(i){return !i.hidden}).length;
+      m.hidden=vis===0;
+      var c=$('h2 span',m);if(c)c.textContent=vis+(vis===1?' item':' items');
+    });
+    $('#empty').hidden=shown>0;
+    var filtered=state.q||state.status.length||state.month.length||state.cat.length;
+    $('#shown').textContent=filtered?('Showing '+shown+' of '+total+' items'):('All '+total+' items');
+    $('#clear').hidden=!filtered;
+    $$('[data-f]').forEach(function(b){
+      b.setAttribute('aria-pressed',state[b.dataset.f].indexOf(b.dataset.v)>=0?'true':'false');
+    });
+  }
+
+  function toggle(f,v){
+    var a=state[f],i=a.indexOf(v);
+    if(i>=0)a.splice(i,1);else a.push(v);
+    apply();
+  }
+  $$('[data-f]').forEach(function(b){b.addEventListener('click',function(){toggle(b.dataset.f,b.dataset.v);});});
+
+  var qi=$('#q'),t;
+  qi.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){state.q=qi.value.trim().toLowerCase();apply();},120);});
+
+  function clearAll(){state.q='';qi.value='';state.status=[];state.month=[];state.cat=[];apply();}
+  $('#clear').addEventListener('click',clearAll);
+  $('#clear2').addEventListener('click',clearAll);
+
+  $('#expand').addEventListener('click',function(){
+    $$('.cattog').forEach(function(b){b.setAttribute('aria-expanded','true');$('#'+b.getAttribute('aria-controls')).hidden=false;});
+    items.forEach(function(it){if(!it.hidden)it.open=true;});
+  });
+  $('#collapse').addEventListener('click',function(){items.forEach(function(it){it.open=false;});});
+
+  $$('.cattog').forEach(function(b){
+    b.addEventListener('click',function(){
+      var open=b.getAttribute('aria-expanded')==='true';
+      b.setAttribute('aria-expanded',open?'false':'true');
+      $('#'+b.getAttribute('aria-controls')).hidden=open;
+    });
+  });
+
+  // views
+  var dv=$('#dateview'),tv=$('#topicview');
+  function buildDate(){
+    dv.innerHTML='';
+    var groups={},order=[];
+    items.slice().sort(function(a,b){return a.dataset.last<b.dataset.last?1:a.dataset.last>b.dataset.last?-1:a._order-b._order;})
+      .forEach(function(it){
+        var k=it.dataset.last==='9999'?'later':it.dataset.last.slice(0,7);
+        if(!groups[k]){groups[k]=[];order.push(k);}
+        groups[k].push(it);
+      });
+    order.sort(function(a,b){if(a==='later')return -1;if(b==='later')return 1;return a<b?1:-1;});
+    order.forEach(function(k){
+      var sec=document.createElement('section');sec.className='month';
+      var h=document.createElement('h2');
+      h.innerHTML=(k==='later'?'Coming up':MONTHS[k.slice(5)]+' '+k.slice(0,4))+' <span></span>';
+      var box=document.createElement('div');box.className='items';
+      groups[k].forEach(function(it){box.appendChild(it);});
+      sec.appendChild(h);sec.appendChild(box);dv.appendChild(sec);
+    });
+  }
+  function setView(v){
+    state.view=v;
+    $('#v-topic').setAttribute('aria-pressed',v==='topic'?'true':'false');
+    $('#v-date').setAttribute('aria-pressed',v==='date'?'true':'false');
+    if(v==='date'){buildDate();tv.hidden=true;dv.hidden=false;}
+    else{
+      items.slice().sort(function(a,b){return a._order-b._order}).forEach(function(it){it._home.appendChild(it);});
+      dv.innerHTML='';dv.hidden=true;tv.hidden=false;
+    }
+    apply();
+  }
+  // keep the per-section order the page was built with
+  $$('.catbody').forEach(function(cb){$$('.item',cb).forEach(function(it,i){it._order=i+1000*Array.prototype.indexOf.call(cb.parentNode.parentNode.children,cb.parentNode);});});
+  $('#v-topic').addEventListener('click',function(){setView('topic');});
+  $('#v-date').addEventListener('click',function(){setView('date');});
+
+  // jump links from the waiting box
+  function reveal(id){
+    var it=document.getElementById(id);if(!it)return;
+    if(it.hidden)clearAll();
+    var sec=it.closest('.cat');
+    if(sec){var b=$('.cattog',sec);b.setAttribute('aria-expanded','true');$('.catbody',sec).hidden=false;}
+    it.open=true;it.classList.add('hit');
+    it.scrollIntoView({block:'center'});
+    setTimeout(function(){it.classList.remove('hit');},2200);
+  }
+  $$('[data-open]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();reveal(a.dataset.open);});});
+  if(/^#i\d+$/.test(location.hash))reveal(location.hash.slice(1));
+
+  // print everything open
+  var wasOpen=[];
+  window.addEventListener('beforeprint',function(){wasOpen=items.map(function(i){return i.open});items.forEach(function(i){i.open=true;});});
+  window.addEventListener('afterprint',function(){items.forEach(function(i,n){i.open=wasOpen[n];});});
+
+  apply();
+})();
+</script>
 </body>
-
 </html>
